@@ -1,32 +1,37 @@
+import java.io.*;
 import java.util.*;
 
-public class search_engine 
-{
-    private List<String> textSources;
+public class search_engine {
+    private File[] files;
 
-    public search_engine(List<String> textSources) 
+    public search_engine(File[] files) 
     {
-        this.textSources = textSources;
+        this.files = files;
     }
 
-    public List<SearchResult> search(String query) 
-    {
-        List<SearchResult> results = new ArrayList<>();
-
-        for (String textSource : textSources) 
-        {
-            int relevance = calculateRelevance(textSource, query);
-            if (relevance > 0)
-            {
-                results.add(new SearchResult(textSource, relevance));
+    public List<File> search(String query) {
+        Map<File, Integer> relevanceMap = new HashMap<>();
+        for (File file : files) {
+            int relevance = 0;
+            try (Scanner scanner = new Scanner(file)) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    relevance += calculateRelevance(line, query);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (relevance > 0) {
+                relevanceMap.put(file, relevance);
             }
         }
 
-        Collections.sort(results);
+        List<File> results = new ArrayList<>(relevanceMap.keySet());
+        results.sort((f1, f2) -> relevanceMap.get(f2) - relevanceMap.get(f1));
         return results;
     }
 
-    public static int calculateRelevance(String textSource, String query) 
+    private int calculateRelevance(String textSource, String query) 
     {
         int count = 0;
         int index = textSource.indexOf(query);
@@ -35,33 +40,5 @@ public class search_engine
             index = textSource.indexOf(query, index + 1);
         }
         return count;
-    }
-}
-
-class SearchResult implements Comparable<SearchResult> 
-{
-    private String textSource;
-    private int relevance;
-
-    public SearchResult(String textSource, int relevance) 
-    {
-        this.textSource = textSource;
-        this.relevance = relevance;
-    }
-
-    public String getTextSource() 
-    {
-        return textSource;
-    }
-
-    public int getRelevance() {
-
-        return relevance;
-    }
-
-    @Override
-    public int compareTo(SearchResult other) 
-    {
-        return other.relevance - this.relevance;
     }
 }
