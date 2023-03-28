@@ -1,54 +1,82 @@
 import javax.swing.*;
+import java.awt.Color;
 import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import java.io.File;
 
-public class my_search_engineGUI extends JFrame {
-    private JTextField queryField;
-    private JTextArea resultArea;
+public class my_search_engineGUI
+{
+    public static void main(String[] args) 
+    {
+        // Create a new JFrame object
+        JFrame frame = new JFrame("My Search Browser");
 
-    public my_search_engineGUI(File[] files) {
-        // Set up the GUI components
-        queryField = new JTextField(20);
-        resultArea = new JTextArea(10, 30);
+        // Create a new JPanel object
+        JPanel panel = new JPanel();
+
+        // Set the background color of the panel to cyan
+        panel.setBackground(Color.CYAN);
+
+        // Create a new JLabel object
+        JLabel label = new JLabel("Enter search term:");
+
+        // Create a new JButton object
         JButton searchButton = new JButton("Search");
 
-        // Create a SearchEngine instance
-        search_engine searchEngine = new search_engine(files);
+        // Create a new JTextField object
+        JTextField textField = new JTextField(30);
 
-        // Add an action listener to the search button
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String query = queryField.getText();
-                List<File> results = searchEngine.search(query);
-                resultArea.setText("");
-                for (File file : results) {
-                    resultArea.append(file.getName() + "\n");
+        // Create a new JTextArea object
+        JTextArea textArea = new JTextArea(10, 30);
+
+        // Create a new JButton object
+        JButton button = new JButton("Choose Files");
+
+        //create a new JcomboBox object
+        JComboBox<String> comboBox = new JComboBox<>(new String[] {"All", "Any"});
+
+
+        
+
+       // Add an ActionListener to the button
+       button.addActionListener(new ActionListener() 
+       {
+            public void actionPerformed(ActionEvent e) 
+            {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setMultiSelectionEnabled(true);
+                int result = fileChooser.showOpenDialog(frame);
+                
+                if (result == JFileChooser.APPROVE_OPTION) 
+                {
+                    File[] files = fileChooser.getSelectedFiles();
+                    String[] searchTerms = textField.getText().split("\\s+");
+                    String searchMode = (String) comboBox.getSelectedItem();
+                    textArea.setText("");
+                    SearchEngine searchEngine = new SearchEngine();
+                    searchEngine.search(files, searchTerms, searchMode, textArea);
                 }
-            }
+            }   
         });
+    
 
-        // Lay out the components using a simple layout
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Query:"));
-        panel.add(queryField);
+        // Add the label, text field, and button to the panel
+        panel.add(label);
+        panel.add(textField);
+        panel.add(button);
+        panel.add(textArea);
+        panel.add(comboBox);
         panel.add(searchButton);
-        panel.add(new JScrollPane(resultArea));
 
-        // Set up the frame
-        setContentPane(panel);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+        // Add the panel to the frame
+        frame.add(panel);
 
-    public static void main(String[] args) {
-        // Specify the text files to search
-        File[] files = {new File("file1.txt"), new File("file2.txt"), new File("file3.txt")};
+        // Set the size of the frame
+        frame.setSize(500, 100);
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new my_search_engineGUI(files).setVisible(true);
-            }
-        });
+        // Set the default close operation
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Make the frame visible
+        frame.setVisible(true);
     }
 }
