@@ -18,6 +18,8 @@ public class search_browserGUI extends JFrame implements ActionListener
       super("Word Search");
       setLayout(null);
       getContentPane().setBackground(new Color(0, 206, 209)); // Set the background color to silver
+      
+
 
       // Create the label and text field for entering the word to search for
       label = new JLabel("Enter the word to be searched:");
@@ -58,9 +60,12 @@ public class search_browserGUI extends JFrame implements ActionListener
    {
       if (e.getSource() == button) 
       {
+         JOptionPane.showMessageDialog(null, "Please select the files to search in.");
          // Get the word to search for from the text field
          String wrd = textField.getText();
-
+         
+         JOptionPane.showMessageDialog(null, "You are searching for the word: " + wrd);
+         
          // Show the file chooser dialog
          int result = fileChooser.showOpenDialog(this);
          
