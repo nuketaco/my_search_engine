@@ -18,11 +18,11 @@ public class search_engine
 
             //this code  creates a hashmap to store the results of the search
             Map<String, Integer> results = new HashMap<>();
-            for(String file1: f_names)
+            for(String filename: f_names)
             {
                 //this code  counts the number of word matches
                 int wordcount = 0;
-                BufferedReader reader = new BufferedReader(new FileReader(file1));
+                BufferedReader reader = new BufferedReader(new FileReader(filename));
                 String line;
 
                 //this code reads the file line by line
@@ -43,7 +43,7 @@ public class search_engine
 
                 if(wordcount > 0)
                 {
-                    results.put(file1, wordcount);
+                    results.put(filename, wordcount);
                 }
             }
 
