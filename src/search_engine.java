@@ -7,14 +7,16 @@ import java.util.*;
 
 public class search_engine
 {
-   private static final String[] f_names ={ "games.csv", "IMBD Top 250 Movies.csv", "Langauges.csv", "mobiles.csv", "Top 50 US Tech Companies 2022-2023" };
+   private static final String[] f_names ={ " video games.csv", "movies.csv", " programing languages.csv", "mobiles.csv", "top tech companies.csv" };//this creates an array of filenames that the program will search through
 
-   public static void main(String[] args) throws IOException
+   //main method
+   public static void main(String[] args) throws IOException 
    {
+        //this code  creates a scanner to read the user input
         try (Scanner inputScanner = new Scanner(System.in))
         {
-            System.out.println("Enter a word to search for: ");
-            String searchword = inputScanner.next().toLowerCase();
+            System.out.println("Enter a word to search for: ");//this code  prompts the user to enter a word to search for
+            String searchword = inputScanner.next().toLowerCase();//this code reads the user input and converts it to lowercase
 
             //this code  creates a hashmap to store the results of the search
             Map<String, Integer> results = new HashMap<>();
@@ -39,23 +41,23 @@ public class search_engine
                         }
                     }
                 }
-                reader.close();
+                reader.close();//closes the reader
 
-                if(wordcount > 0)
+                if(wordcount > 0)//this if statement  checks if the word was found in the file
                 {
                     results.put(filename, wordcount);
                 }
             }
 
-            if(results.isEmpty())
+            if(results.isEmpty())//this if statement  checks if the results are empty
             {
                 System.out.println("No matches found");
             }
 
-            else
+            else//this else statement  prints the results
             {
                 System.out.println("Matches found in the following files: ");
-                results.entrySet().stream()
+                results.entrySet().stream()// this sorts the results by the number of matches
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .forEach(entry -> System.out.printf("%s (%d matches)%n", entry.getKey(), entry.getValue()));
             }

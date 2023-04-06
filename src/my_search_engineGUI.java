@@ -8,12 +8,11 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-
-
-public class my_search_engineGUI extends JFrame 
+public class my_search_engineGUI extends JFrame
 {
-    private static final String[] f_names = {"games.csv", "IMDB Top 250 Movies.csv", "languages.csv", "mobiles.csv", "Top 50 US Tech Companies 2022 - 2023.csv"};
-    private JTextField searchTermField;
+    //this creates an array of filenames that the program will search through
+    private static final String[] f_names = {"video games.csv", "movies.csv", "programing languages.csv", "mobiles.csv", "top tech companies.csv"};
+    private JTextField searchwordArea;
     private JTextArea resultsArea;
 
     public my_search_engineGUI() 
@@ -27,9 +26,9 @@ public class my_search_engineGUI extends JFrame
         Color turquoise = new Color(64, 224, 208);
         Font consolas14 = new Font("Consolas", Font.BOLD, 14);
 
-        searchTermField = new JTextField();
-        searchTermField.setBackground(turquoise);
-        searchTermField.setFont(consolas14);
+        searchwordArea = new JTextField();
+        searchwordArea.setBackground(turquoise);
+        searchwordArea.setFont(consolas14);
 
         resultsArea = new JTextArea();
         resultsArea.setEditable(false);
@@ -43,7 +42,7 @@ public class my_search_engineGUI extends JFrame
             public void actionPerformed(ActionEvent e)
             {
                 
-                String message = "You are searching for the word: " + searchTermField.getText();
+                String message = "You are searching for the word: " + searchwordArea.getText();
                 JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
                 JDialog dialog = pane.createDialog(null, "Search Message");
                 
@@ -53,21 +52,21 @@ public class my_search_engineGUI extends JFrame
                 searchFiles();
             }
         });
-        searchButton.setBackground(Color.GREEN); // Set the background color of the  search button to green
-        searchButton.setFont(consolas14);
+        searchButton.setBackground(Color.GREEN); // Set the background color of the  searchbutton to green
+        searchButton.setFont(consolas14);// set the font of the searchbutton to consolas14
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() 
         {
             public void actionPerformed(ActionEvent e) 
             {
-                searchTermField.setText("");
+                searchwordArea.setText("");
                 resultsArea.setText("");
                 
             }
         });
         cancelButton.setBackground(Color.orange); // set the background color of the cancelbutton to orange
-        cancelButton.setFont(consolas14);
+        cancelButton.setFont(consolas14);// set the font of the cancelbutton to consolas14
 
         JButton endButton = new JButton("End");
         endButton.addActionListener(new ActionListener() 
@@ -83,7 +82,7 @@ public class my_search_engineGUI extends JFrame
             }
         });
         endButton.setBackground(Color.red); // set the background color of the endbutton to red
-        endButton.setFont(consolas14);
+        endButton.setFont(consolas14);// set the font of the endbutton to consolas14
         
         JPanel buttonPanel = new JPanel(new FlowLayout());// create a new panel with FlowLayout
         buttonPanel.add(searchButton); // add the search button to the panel
@@ -92,92 +91,96 @@ public class my_search_engineGUI extends JFrame
         
         JPanel searchPanel = new JPanel(new BorderLayout());
         searchPanel.add(new JLabel("Enter the word to be searched :"), BorderLayout.WEST);
-        searchPanel.add(searchTermField, BorderLayout.CENTER);
-        searchPanel.add(buttonPanel, BorderLayout.EAST);
+        searchPanel.add(searchwordArea, BorderLayout.CENTER);//adds the searchwordarea to the center of the searchpanel
+        searchPanel.add(buttonPanel, BorderLayout.EAST);//adds the buttonpanel to the left of the searchpanel
 
         // Set the background color of the main panel to turquoise
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());//creates a new panel
         mainPanel.setBackground(turquoise);
-        mainPanel.add(searchPanel, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(resultsArea), BorderLayout.CENTER);
-        getContentPane().add(mainPanel);
+        mainPanel.add(searchPanel, BorderLayout.NORTH);//adds the searchpanel to the top of the mainpanel
+        mainPanel.add(new JScrollPane(resultsArea), BorderLayout.CENTER);//adds the resultsarea to the bottom of the mainpanel
+        getContentPane().add(mainPanel);//
 
         // Set the background color of the JFrame to turquoise
         getContentPane().setBackground(turquoise);
     }
 
+    //this method checks through the files and returns the results
     private void searchFiles() 
     {
-        String[] searchword = searchTermField.getText().trim().toLowerCase().split("\\s+");
+        //split the text inside the searchwordArea into an array of words so that each word is recognised as separate
+        String[] searchword = searchwordArea.getText().trim().toLowerCase().split("\\s+");
         Map<String, Integer> results = new HashMap<>();
         
+        //this creates a for loop that will searchh through each file in the array of filenames and return the results
         for (String filename : f_names) 
         {
             int wordCount = 0;
             
+            //this try statement will try to find the file and if it cant it will give back an error
             try 
             {
-                File file1 = new File(filename);
-                Scanner scanner = new Scanner(file1);
+                File file1 = new File(filename);//this creates a new file object
+                Scanner scanner1 = new Scanner(file1);//scans an incoming file
                 
-                while (scanner.hasNextLine()) 
+                while (scanner1.hasNextLine())// this while loop will check if there is more input to be read
                 {
-                    String line = scanner.nextLine().toLowerCase();
-                    boolean WordsFound = true;
+                    String line = scanner1.nextLine().toLowerCase();//this convertsthe input to lowercase
+                    boolean WordsFound = true;// a boolean that will be used to check if the words are found
                     
-                    for (String term : searchword) 
+                    for (String term : searchword)//this for loop checks if the word that is being looked for is in the file
                     {
-                        if (!line.contains(term)) 
+                        if (!line.contains(term)) //this if statement checks if the word is in the file array
                         {
-                            WordsFound = false;
-                            break;
+                            WordsFound = false;// if the chosen word is not in the aray the bollean will return false
+                            break;//this will break the loop
                         }
                     }
                     
-                    if (WordsFound) 
+                    if (WordsFound)
                     {
-                        wordCount++;
+                        wordCount++;// increments the wordcount
                     }
                 }
-                scanner.close();
+                scanner1.close();//closes the scanner
             } 
             
-            catch (FileNotFoundException ex) 
+            catch (FileNotFoundException ex)//this catch stament is used to catch the error if a file is not found
             {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "File not found: " + filename, "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();// this prints the error
+                JOptionPane.showMessageDialog(this, "File not found: " + filename, "Error", JOptionPane.ERROR_MESSAGE);//this displays a mesage box with the error
             }
             
-            if (wordCount > 0) 
+            if (wordCount > 0)// this if statement checks if the wordcount is bigger than 0
             {
-                results.put(filename, wordCount);
+                results.put(filename, wordCount);// if the result is bigger than 0 it will add the filename and the wordcount to the results
             }
         }
     
-        if (results.isEmpty()) 
+        if (results.isEmpty())// this if statement checks if the results are empty
         {
-            resultsArea.setText("No matches found.");
+            resultsArea.setText("No matches found.");// if the are no results this message will be printed
         } 
         
-        else 
+        else// otherwise the results will be printed 
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append("these Matches have been found in the following files:\n");
-            results.entrySet().stream()
-                    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                    .forEach(entry -> sb.append(String.format("%s (%d matches)\n", entry.getKey(), entry.getValue())));
-            resultsArea.setText(sb.toString());
+            StringBuilder sb = new StringBuilder();//this creates a new stringbuilder object called sb so that the string can be edited
+            sb.append("these Matches have been found in the following files:\n");//adds this text to the string builder
+            results.entrySet().stream()//
+                    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())//this sorts the hashmpa results by value
+                    .forEach(entry -> sb.append(String.format("%s (%d matches)\n", entry.getKey(), entry.getValue())));// adds the ammoount of matches to the string builder
+            resultsArea.setText(sb.toString());//this adds the result to the resultarea
         }
     }
 
-    public static void main(String[] args) 
+    public static void main(String[] args)// main method
     {
-        SwingUtilities.invokeLater(new Runnable() 
+        SwingUtilities.invokeLater(new Runnable()//this code is needed as the GUI is written in swing
         {
-            public void run() 
+            public void run()// this will run the program
             {
-                new my_search_engineGUI().setVisible(true);
+                new my_search_engineGUI().setVisible(true);// this makes the GUI visable on screen
             }
         });
     }
-}
+}//end of class
