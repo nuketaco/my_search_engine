@@ -2,6 +2,7 @@
 //author: filip kruk
 //program name: mysearchengineGUI
 //program description: this program creates a GUI for the search engine
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -17,34 +18,34 @@ public class my_search_engineGUI extends JFrame
 
     public my_search_engineGUI() 
     {
-        super("my search engine");
+        super("my search engine");//this creates a new JFrame with the title my search engine
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//this sets the default behaviour to exit the program when the window is closed
+        setSize(600, 600);//sets the size of the window to 600x600
 
         // Set the background color and font for the text field and text area
         Color turquoise = new Color(64, 224, 208);
         Font consolas14 = new Font("Consolas", Font.BOLD, 14);
 
-        searchwordArea = new JTextField();
-        searchwordArea.setBackground(turquoise);
-        searchwordArea.setFont(consolas14);
+        searchwordArea = new JTextField();//this creates a new text field to enter the word to be searched for
+        searchwordArea.setBackground(turquoise);//sets the background color of the text field to turquoise
+        searchwordArea.setFont(consolas14);//sets the font to consolas 14
 
-        resultsArea = new JTextArea();
-        resultsArea.setEditable(false);
+        resultsArea = new JTextArea();//this creates a new text area to display the results of the search
+        resultsArea.setEditable(false);//this makes the text area uneditable
         resultsArea.setBackground(turquoise);
         resultsArea.setFont(consolas14);
 
-        JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(new ActionListener() 
+        JButton searchButton = new JButton("Search");//this creates a new button to search for the word
+        searchButton.addActionListener(new ActionListener()//adds an action listener to the search button to detect user input
         {
             // Create a message box to display the search term
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(ActionEvent e)//this method will search for the word
             {
                 
-                String message = "You are searching for the word: " + searchwordArea.getText();
-                JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
-                JDialog dialog = pane.createDialog(null, "Search Message");
+                String message = "You are searching for the word: " + searchwordArea.getText();//this code  creates a messagebox  to display the word that the user is searching for
+                JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);//
+                JDialog dialog = pane.createDialog(null, "Search Message");//
                 
                 // Set the size of the message box
                 dialog.setSize(500, 200);
@@ -55,10 +56,10 @@ public class my_search_engineGUI extends JFrame
         searchButton.setBackground(Color.GREEN); // Set the background color of the  searchbutton to green
         searchButton.setFont(consolas14);// set the font of the searchbutton to consolas14
 
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() 
+        JButton cancelButton = new JButton("Cancel");//creats a new button to cancel the search and clear the text fields
+        cancelButton.addActionListener(new ActionListener() // add an action listener to the cancel button to detect user input
         {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)// this method clears the text fields 
             {
                 searchwordArea.setText("");
                 resultsArea.setText("");
@@ -68,16 +69,16 @@ public class my_search_engineGUI extends JFrame
         cancelButton.setBackground(Color.orange); // set the background color of the cancelbutton to orange
         cancelButton.setFont(consolas14);// set the font of the cancelbutton to consolas14
 
-        JButton endButton = new JButton("End");
-        endButton.addActionListener(new ActionListener() 
+        JButton endButton = new JButton("End");// this creates a new button to end the program
+        endButton.addActionListener(new ActionListener()//adds an action listener to the end button to detect user input
         {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e)//this method will close the program
             {
-                int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to end the program?", "Confirm Exit", JOptionPane.YES_NO_OPTION);
+                int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to end the program?", "Confirm Exit", JOptionPane.YES_NO_OPTION);//this creates a message box asking the user  if they  want to end the program
             
-                if (choice == JOptionPane.YES_OPTION) 
+                if (choice == JOptionPane.YES_OPTION)//if the user clicks yes the program will close 
                 {
-                    dispose(); // close the JFrame
+                    dispose(); // closes the JFrame
                 }
             }
         });
@@ -137,7 +138,7 @@ public class my_search_engineGUI extends JFrame
                         }
                     }
                     
-                    if (WordsFound)
+                    if (WordsFound)//if words have been found in the files 
                     {
                         wordCount++;// increments the wordcount
                     }

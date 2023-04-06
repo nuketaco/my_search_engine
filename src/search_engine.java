@@ -2,7 +2,8 @@
 //author filip kruk c21420324
 //program name: search_engine
 //program description: this program searches for a word in a file and returns the number of matches
-import java.io.*;
+
+import java.io.*;//
 import java.util.*;
 
 public class search_engine
