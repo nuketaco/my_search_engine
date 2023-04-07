@@ -9,14 +9,14 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-public class my_search_engineGUI extends JFrame
+public class search_engineGUI extends JFrame
 {
     //this creates an array of filenames that the program will search through
     private static final String[] f_names = {"video games.csv", "movies.csv", "programing languages.csv", "mobiles.csv", "top tech companies.csv"};
     private JTextField searchwordArea;
     private JTextArea resultsArea;
 
-    public my_search_engineGUI() 
+    public search_engineGUI() 
     {
         super("my search engine");//this creates a new JFrame with the title my search engine
 
@@ -180,7 +180,7 @@ public class my_search_engineGUI extends JFrame
         {
             public void run()// this will run the program
             {
-                new my_search_engineGUI().setVisible(true);// this makes the GUI visable on screen
+                new search_engineGUI().setVisible(true);// this makes the GUI visable on screen
             }
         });
     }
