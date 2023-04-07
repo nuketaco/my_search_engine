@@ -29,4 +29,4 @@ I wouldeve liked to implement a full file chooser system into the GUI rather tha
 
 ## links 
 github repo: https://github.com/nuketaco/my_search_engine.git
-youtube video: 
+youtube video: https://youtu.be/XCUTrLp5Z70
